@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() => runApp(const MyApp());
+
+class Car {
+  Car(this.make, this.model, this.price);
+  final String make;
+  final int model;
+  final int price;
 }
 
 class MyApp extends StatelessWidget {
@@ -9,24 +14,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Sortable Car Table',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-        useMaterial3: true,
-      ),
-      home: const CarTablePage(),
+      home: CarTablePage(),
     );
   }
-}
-
-class Car {
-  const Car({required this.make, required this.model, required this.price});
-
-  final String make;
-  final String model;
-  final double price;
 }
 
 class CarTablePage extends StatefulWidget {
@@ -37,69 +29,68 @@ class CarTablePage extends StatefulWidget {
 }
 
 class _CarTablePageState extends State<CarTablePage> {
-  final List<Car> _cars = [
-    const Car(make: 'Toyota', model: 'Corolla', price: 22000),
-    const Car(make: 'Honda', model: 'Civic', price: 25000),
-    const Car(make: 'Ford', model: 'Mustang', price: 42000),
-    const Car(make: 'Tesla', model: 'Model 3', price: 39000),
-    const Car(make: 'BMW', model: '3 Series', price: 45000),
+  final List<Car> cars = [
+    Car('Honda', 2021, 35000),
+    Car('Toyota', 2011, 6000),
+    Car('BMW', 2010, 9000),
   ];
 
-  int? _sortColumnIndex;
-  bool _sortAscending = true;
+  int? sortColumnIndex;
+  bool sortAscending = true;
 
-  void _sortCars(int columnIndex, bool ascending) {
+  void sortBy(
+    int columnIndex,
+    bool ascending,
+    int Function(Car a, Car b) compare,
+  ) {
     setState(() {
-      _sortColumnIndex = columnIndex;
-      _sortAscending = ascending;
-
-      _cars.sort((first, second) {
-        int comparison;
-
-        if (columnIndex == 0) {
-          comparison = first.make.compareTo(second.make);
-        } else if (columnIndex == 1) {
-          comparison = first.model.compareTo(second.model);
-        } else {
-          comparison = first.price.compareTo(second.price);
-        }
-
-        return ascending ? comparison : -comparison;
-      });
+      cars.sort((a, b) => ascending ? compare(a, b) : compare(b, a));
+      sortColumnIndex = columnIndex;
+      sortAscending = ascending;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Car Prices'),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-      ),
+      appBar: AppBar(title: const Text('DataTable Sorting')),
       body: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: SingleChildScrollView(
+        child: SizedBox(
+          width: double.infinity,
           child: DataTable(
-            sortColumnIndex: _sortColumnIndex,
-            sortAscending: _sortAscending,
+            sortColumnIndex: sortColumnIndex,
+            sortAscending: sortAscending,
+            border: TableBorder.all(color: Colors.black),
+            headingRowColor: WidgetStateProperty.all<Color>(Colors.grey),
             columns: [
-              DataColumn(label: const Text('Car Make'), onSort: _sortCars),
-              DataColumn(label: const Text('Model'), onSort: _sortCars),
+              DataColumn(
+                label: const Text('Car Make'),
+                onSort: (i, asc) =>
+                    sortBy(i, asc, (a, b) => a.make.compareTo(b.make)),
+              ),
+              DataColumn(
+                label: const Text('Model'),
+                numeric: true,
+                onSort: (i, asc) =>
+                    sortBy(i, asc, (a, b) => a.model.compareTo(b.model)),
+              ),
               DataColumn(
                 label: const Text('Price'),
                 numeric: true,
-                onSort: _sortCars,
+                onSort: (i, asc) =>
+                    sortBy(i, asc, (a, b) => a.price.compareTo(b.price)),
               ),
             ],
-            rows: _cars.map((car) {
-              return DataRow(
-                cells: [
-                  DataCell(Text(car.make)),
-                  DataCell(Text(car.model)),
-                  DataCell(Text('\$${car.price.toStringAsFixed(2)}')),
-                ],
-              );
-            }).toList(),
+            rows: [
+              for (final car in cars)
+                DataRow(
+                  cells: [
+                    DataCell(Text(car.make)),
+                    DataCell(Text('${car.model}')),
+                    DataCell(Text('${car.price}')),
+                  ],
+                ),
+            ],
           ),
         ),
       ),
