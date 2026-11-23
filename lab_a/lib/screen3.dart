@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 
-class Screen3 extends StatelessWidget {
-  const Screen3({super.key});
+class BusinessScreen extends StatelessWidget {
+  const BusinessScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Business')),
-      body: const Center(
-        child: Text('Business Screen', style: TextStyle(fontSize: 24)),
+    return const Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(Icons.business, size: 80, color: Colors.green),
+          SizedBox(height: 16),
+          Text('Business Screen', style: TextStyle(fontSize: 24)),
+        ],
       ),
     );
   }

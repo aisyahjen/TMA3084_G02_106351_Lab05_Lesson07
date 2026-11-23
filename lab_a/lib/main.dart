@@ -6,18 +6,21 @@ import 'screen3.dart';
 import 'screen4.dart';
 
 void main() {
-  runApp(const LabAApp());
+  runApp(const MyApp());
 }
 
-class LabAApp extends StatelessWidget {
-  const LabAApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Lab A',
-      theme: ThemeData(colorSchemeSeed: Colors.indigo, useMaterial3: true),
+      title: 'Bottom Navigation Demo',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+        useMaterial3: true,
+      ),
       home: const NavigationPage(),
     );
   }
@@ -34,24 +37,30 @@ class _NavigationPageState extends State<NavigationPage> {
   int _selectedIndex = 0;
 
   final List<Widget> _screens = const [
-    Screen1(),
-    Screen2(),
-    Screen3(),
-    Screen4(),
+    HomeScreen(),
+    AlarmScreen(),
+    BusinessScreen(),
+    SchoolScreen(),
   ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(index: _selectedIndex, children: _screens),
+      appBar: AppBar(
+        title: const Text('Bottom Navigation'),
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+      ),
+      body: _screens[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
         type: BottomNavigationBarType.fixed,
-        onTap: (index) {
-          setState(() {
-            _selectedIndex = index;
-          });
-        },
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.alarm), label: 'Alarm'),
