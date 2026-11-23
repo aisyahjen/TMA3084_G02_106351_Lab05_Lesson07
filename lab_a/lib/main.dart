@@ -12,9 +12,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: BottomNavLab(),
+      theme: ThemeData(colorSchemeSeed: Colors.pink, useMaterial3: true),
+      home: const BottomNavLab(),
     );
   }
 }
@@ -39,23 +40,42 @@ class _BottomNavLabState extends State<BottomNavLab> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFFFF0F5), // Lavender blush pink
       appBar: AppBar(
-        title: const Text('Bottom Navigation Bar'),
-        backgroundColor: Colors.blue,
+        title: const Text(
+          'Bottom Navigation Bar',
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.pink.shade400,
+        elevation: 2,
       ),
       body: screens[currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
+        backgroundColor: Colors.white,
+        selectedItemColor: Colors.pink.shade600,
+        unselectedItemColor: Colors.pink.shade200,
+        selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
         currentIndex: currentIndex,
         onTap: (index) => setState(() => currentIndex = index),
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.alarm), label: 'Alarm'),
           BottomNavigationBarItem(
-            icon: Icon(Icons.business),
+            icon: Icon(Icons.home_rounded),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.alarm_rounded),
+            label: 'Alarm',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.business_rounded),
             label: 'Business',
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.school), label: 'School'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.school_rounded),
+            label: 'School',
+          ),
         ],
       ),
     );

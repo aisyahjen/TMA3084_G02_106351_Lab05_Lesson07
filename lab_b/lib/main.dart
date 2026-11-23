@@ -14,9 +14,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: CarTablePage(),
+      theme: ThemeData(colorSchemeSeed: Colors.pink, useMaterial3: true),
+      home: const CarTablePage(),
     );
   }
 }
@@ -53,44 +54,84 @@ class _CarTablePageState extends State<CarTablePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('DataTable Sorting')),
+      backgroundColor: const Color(0xFFFFF5F8),
+      appBar: AppBar(
+        title: const Text(
+          'DataTable Sorting',
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: Colors.pink.shade400,
+      ),
       body: SingleChildScrollView(
-        child: SizedBox(
+        padding: const EdgeInsets.all(16),
+        child: Container(
           width: double.infinity,
-          child: DataTable(
-            sortColumnIndex: sortColumnIndex,
-            sortAscending: sortAscending,
-            border: TableBorder.all(color: Colors.black),
-            headingRowColor: WidgetStateProperty.all<Color>(Colors.grey),
-            columns: [
-              DataColumn(
-                label: const Text('Car Make'),
-                onSort: (i, asc) =>
-                    sortBy(i, asc, (a, b) => a.make.compareTo(b.make)),
-              ),
-              DataColumn(
-                label: const Text('Model'),
-                numeric: true,
-                onSort: (i, asc) =>
-                    sortBy(i, asc, (a, b) => a.model.compareTo(b.model)),
-              ),
-              DataColumn(
-                label: const Text('Price'),
-                numeric: true,
-                onSort: (i, asc) =>
-                    sortBy(i, asc, (a, b) => a.price.compareTo(b.price)),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.pink.withValues(alpha: 0.1),
+                blurRadius: 10,
+                offset: const Offset(0, 4),
               ),
             ],
-            rows: [
-              for (final car in cars)
-                DataRow(
-                  cells: [
-                    DataCell(Text(car.make)),
-                    DataCell(Text('${car.model}')),
-                    DataCell(Text('${car.price}')),
-                  ],
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(12),
+            child: DataTable(
+              sortColumnIndex: sortColumnIndex,
+              sortAscending: sortAscending,
+              border: TableBorder.all(color: Colors.pink.shade200),
+              headingRowColor: WidgetStateProperty.all<Color>(
+                Colors.pink.shade100,
+              ),
+              headingTextStyle: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.pink.shade900,
+                fontSize: 15,
+              ),
+              columns: [
+                DataColumn(
+                  label: const Text('Car Make'),
+                  onSort: (i, asc) =>
+                      sortBy(i, asc, (a, b) => a.make.compareTo(b.make)),
                 ),
-            ],
+                DataColumn(
+                  label: const Text('Model'),
+                  numeric: true,
+                  onSort: (i, asc) =>
+                      sortBy(i, asc, (a, b) => a.model.compareTo(b.model)),
+                ),
+                DataColumn(
+                  label: const Text('Price'),
+                  numeric: true,
+                  onSort: (i, asc) =>
+                      sortBy(i, asc, (a, b) => a.price.compareTo(b.price)),
+                ),
+              ],
+              rows: [
+                for (int index = 0; index < cars.length; index++)
+                  DataRow(
+                    color: WidgetStateProperty.all<Color>(
+                      index.isEven ? Colors.white : const Color(0xFFFFF0F5),
+                    ),
+                    cells: [
+                      DataCell(
+                        Text(
+                          cars[index].make,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: Colors.pink.shade800,
+                          ),
+                        ),
+                      ),
+                      DataCell(Text('${cars[index].model}')),
+                      DataCell(Text('${cars[index].price}')),
+                    ],
+                  ),
+              ],
+            ),
           ),
         ),
       ),
