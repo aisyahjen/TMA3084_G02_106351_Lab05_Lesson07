@@ -5,17 +5,10 @@ class Screen4 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(Icons.school, size: 64, color: Colors.purple),
-          SizedBox(height: 12),
-          Text(
-            'School Screen',
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-          ),
-        ],
+    return Scaffold(
+      appBar: AppBar(title: const Text('School')),
+      body: const Center(
+        child: Text('School Screen', style: TextStyle(fontSize: 24)),
       ),
     );
   }

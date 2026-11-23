@@ -5,17 +5,10 @@ class Screen3 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(Icons.business, size: 64, color: Colors.green),
-          SizedBox(height: 12),
-          Text(
-            'Business Screen',
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-          ),
-        ],
+    return Scaffold(
+      appBar: AppBar(title: const Text('Business')),
+      body: const Center(
+        child: Text('Business Screen', style: TextStyle(fontSize: 24)),
       ),
     );
   }
