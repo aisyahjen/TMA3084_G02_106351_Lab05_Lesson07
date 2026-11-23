@@ -43,7 +43,7 @@ class _BottomNavLabState extends State<BottomNavLab> {
       backgroundColor: const Color(0xFFFFF0F5), // Lavender blush pink
       appBar: AppBar(
         title: const Text(
-          'Bottom Navigation Bar',
+          'Aisyah Navigation Bar',
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
