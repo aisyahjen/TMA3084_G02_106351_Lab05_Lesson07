@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 
-class AlarmScreen extends StatelessWidget {
-  const AlarmScreen({super.key});
+class Screen2 extends StatelessWidget {
+  const Screen2({super.key});
 
   @override
   Widget build(BuildContext context) {
     return const Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(Icons.alarm, size: 80, color: Colors.orange),
-          SizedBox(height: 16),
-          Text('Alarm Screen', style: TextStyle(fontSize: 24)),
-        ],
+      child: Text(
+        'Alarm',
+        style: TextStyle(
+          fontSize: 40,
+          fontWeight: FontWeight.bold,
+          color: Colors.blue,
+        ),
       ),
     );
   }

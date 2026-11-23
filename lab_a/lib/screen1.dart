@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class Screen1 extends StatelessWidget {
+  const Screen1({super.key});
 
   @override
   Widget build(BuildContext context) {
     return const Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(Icons.home, size: 80, color: Colors.blue),
-          SizedBox(height: 16),
-          Text('Home Screen', style: TextStyle(fontSize: 24)),
-        ],
+      child: Text(
+        'Home',
+        style: TextStyle(
+          fontSize: 40,
+          fontWeight: FontWeight.bold,
+          color: Colors.blue,
+        ),
       ),
     );
   }

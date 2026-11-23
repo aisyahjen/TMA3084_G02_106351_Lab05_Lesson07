@@ -5,62 +5,49 @@ import 'screen2.dart';
 import 'screen3.dart';
 import 'screen4.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Bottom Navigation Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-        useMaterial3: true,
-      ),
-      home: const NavigationPage(),
+      home: BottomNavLab(),
     );
   }
 }
 
-class NavigationPage extends StatefulWidget {
-  const NavigationPage({super.key});
+class BottomNavLab extends StatefulWidget {
+  const BottomNavLab({super.key});
 
   @override
-  State<NavigationPage> createState() => _NavigationPageState();
+  State<BottomNavLab> createState() => _BottomNavLabState();
 }
 
-class _NavigationPageState extends State<NavigationPage> {
-  int _selectedIndex = 0;
+class _BottomNavLabState extends State<BottomNavLab> {
+  int currentIndex = 0;
 
-  final List<Widget> _screens = const [
-    HomeScreen(),
-    AlarmScreen(),
-    BusinessScreen(),
-    SchoolScreen(),
+  final List<Widget> screens = const [
+    Screen1(),
+    Screen2(),
+    Screen3(),
+    Screen4(),
   ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Bottom Navigation'),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: const Text('Bottom Navigation Bar'),
+        backgroundColor: Colors.blue,
       ),
-      body: _screens[_selectedIndex],
+      body: screens[currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
+        currentIndex: currentIndex,
+        onTap: (index) => setState(() => currentIndex = index),
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.alarm), label: 'Alarm'),
